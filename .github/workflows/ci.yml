@@ -64,4 +64,14 @@ jobs:
 
       - name: Smoke test deployed service
         run: |
-          curl -fsS "https://k4-l3a-day12-nguyenvietthanh-2a202602924-cloudse-production.up.railway.app/health"
+          echo "Waiting for deployment to be ready..."
+          for i in $(seq 1 12); do
+            if curl -fsS "https://k4-l3a-day12-nguyenvietthanh-2a202602924-cloudse-production.up.railway.app/health"; then
+              echo "Service is healthy (attempt $i)!"
+              exit 0
+            fi
+            echo "Waiting for service... (attempt $i/12)"
+            sleep 5
+          done
+          echo "Smoke test timed out"
+          exit 1
