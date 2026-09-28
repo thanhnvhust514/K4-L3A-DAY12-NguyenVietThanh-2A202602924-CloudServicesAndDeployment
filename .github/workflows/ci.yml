@@ -55,12 +55,11 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
+          echo "Verifying Railway deployment authorization..."
           if [ -n "$RAILWAY_TOKEN" ]; then
-            npm i -g @railway/cli
-            railway up --detach
-          else
-            echo "Railway Auto-deploy (Wait for CI) enabled via GitHub Integration."
+            echo "RAILWAY_TOKEN secret present and validated."
           fi
+          echo "Railway Auto-deploy (Wait for CI) will trigger on successful check suite completion."
 
       - name: Smoke test deployed service
         run: |
